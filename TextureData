@@ -1,0 +1,118 @@
+using JetBrains.Annotations;
+using UnityEngine;
+using System.Linq;
+using UnityEngine.Rendering;
+
+[CreateAssetMenu()]
+public class TextureData : UpdateableData
+{
+    const int textureSize = 2048;
+    public Layer[] layers;
+    
+    /*public Color[] baseColours;
+
+    [Range(0, 1)]
+    [SerializeField]
+    private float[] BaseStartHeights;
+
+    [Range(0, 1)]
+    [SerializeField]
+    private float[] BaseBlends;*/
+
+    float savedMinHeight;
+    float savedMaxHeight;
+    public void ApplyToMaterial(Material material)
+    {
+        material.SetInt("_LayerCount", layers.Length);
+        material.SetColorArray("_BaseColours", layers.Select(x => x.tint).ToArray());
+
+        if (layers.Length >= 1)
+        {
+            material.SetFloat("_Height0", layers[0].startHeight);
+            material.SetFloat("_Blend0", layers[0].blendStrength);
+            material.SetFloat("_ColourStrength0", layers[0].tintStrenght);
+            material.SetFloat("_TextureScale0", layers[0].textureScale);
+            material.SetTexture("_Texture0", layers[0].texture);
+        }
+        if (layers.Length >= 2)
+        {
+            material.SetFloat("_Height1", layers[1].startHeight);
+            material.SetFloat("_Blend1", layers[1].blendStrength);
+            material.SetFloat("_ColourStrength1", layers[1].tintStrenght);
+            material.SetFloat("_TextureScale1", layers[1].textureScale);
+            material.SetTexture("_Texture1", layers[1].texture);
+        }
+        if (layers.Length >= 3)
+        {
+            material.SetFloat("_Height2", layers[2].startHeight);
+            material.SetFloat("_Blend2", layers[2].blendStrength);
+            material.SetFloat("_ColourStrength2", layers[2].tintStrenght);
+            material.SetFloat("_TextureScale2", layers[2].textureScale);
+            material.SetTexture("_Texture2", layers[2].texture);
+        }
+        if (layers.Length >= 4)
+        {
+            material.SetFloat("_Height3", layers[3].startHeight);
+            material.SetFloat("_Blend3", layers[3].blendStrength);
+            material.SetFloat("_ColourStrength3", layers[3].tintStrenght);
+            material.SetFloat("_TextureScale3", layers[3].textureScale);
+            material.SetTexture("_Texture3", layers[3].texture);
+        }
+        if (layers.Length >= 5)
+        {
+            material.SetFloat("_Height4", layers[4].startHeight);
+            material.SetFloat("_Blend4", layers[4].blendStrength);
+            material.SetFloat("_ColourStrength4", layers[4].tintStrenght);
+            material.SetFloat("_TextureScale4", layers[4].textureScale);
+            material.SetTexture("_Texture4", layers[4].texture);
+        }
+        if (layers.Length >= 6)
+        {
+            material.SetFloat("_Height5", layers[5].startHeight);
+            material.SetFloat("_Blend5", layers[5].blendStrength);
+            material.SetFloat("_ColourStrength5", layers[5].tintStrenght);
+            material.SetFloat("_TextureScale5", layers[5].textureScale);
+            material.SetTexture("_Texture5", layers[5].texture);
+        }
+        if (layers.Length >= 7)
+        {
+            material.SetFloat("_Height6", layers[6].startHeight);
+            material.SetFloat("_Blend6", layers[6].blendStrength);
+            material.SetFloat("_ColourStrength6", layers[6].tintStrenght);
+            material.SetFloat("_TextureScale6", layers[6].textureScale);
+            material.SetTexture("_Texture6", layers[6].texture);
+        }
+        if (layers.Length >= 8)
+        {
+            material.SetFloat("_Height7", layers[7].startHeight);
+            material.SetFloat("_Blend7", layers[7].blendStrength);
+            material.SetFloat("_ColourStrength7", layers[7].tintStrenght);
+            material.SetFloat("_TextureScale7", layers[7].textureScale);
+            material.SetTexture("_Texture7", layers[7].texture);
+        }
+
+
+        UpdateMeshHeights(material, savedMinHeight, savedMaxHeight);
+    }
+    public void UpdateMeshHeights(Material material, float minHeight, float maxHeight)
+    {
+        savedMaxHeight = maxHeight;
+        savedMinHeight = minHeight;
+
+        material.SetFloat("_MinHeight", minHeight);
+        material.SetFloat("_MaxHeight", maxHeight);
+    }
+    [System.Serializable]
+    public class Layer
+    {
+        public Texture2D texture;
+        public Color tint;
+        [Range(0,1)]
+        public float tintStrenght;
+        [Range(0, 1)]
+        public float startHeight;
+        [Range(0, 1)]
+        public float blendStrength;
+        public float textureScale;
+    }
+}
